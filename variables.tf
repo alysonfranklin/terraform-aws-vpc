@@ -1,761 +1,975 @@
 variable "create_vpc" {
-  description = "Controls if VPC should be created (it affects almost all resources)"
+  description = "Controla se a VPC deve ser criada (afeta quase todos os recursos)"
   type        = bool
   default     = true
 }
 
 variable "name" {
-  description = "Name to be used on all the resources as identifier"
-  type        = string
+  description = "Nome a ser usado em todos os recursos como identificador"
   default     = ""
 }
 
 variable "cidr" {
-  description = "The CIDR block for the VPC. Default value is a valid CIDR, but not acceptable by AWS and should be overridden"
-  type        = string
+  description = "O bloco CIDR para a VPC. O valor padrão é um CIDR válido, mas não é aceitável pela AWS e deve ser substituído"
   default     = "0.0.0.0/0"
 }
 
-variable "enable_ipv6" {
-  description = "Requests an Amazon-provided IPv6 CIDR block with a /56 prefix length for the VPC. You cannot specify the range of IP addresses, or the size of the CIDR block."
+variable "assign_generated_ipv6_cidr_block" {
+  description = "Solicita um bloco CIDR IPv6 fornecido pela Amazon com um comprimento de prefixo / 56 para a VPC. Você não pode especificar o intervalo de endereços IP ou o tamanho do bloco CIDR"
   type        = bool
   default     = false
-}
-
-variable "private_subnet_ipv6_prefixes" {
-  description = "Assigns IPv6 private subnet id based on the Amazon provided /56 prefix base 10 integer (0-256). Must be of equal length to the corresponding IPv4 subnet list"
-  type        = list(string)
-  default     = []
-}
-
-variable "public_subnet_ipv6_prefixes" {
-  description = "Assigns IPv6 public subnet id based on the Amazon provided /56 prefix base 10 integer (0-256). Must be of equal length to the corresponding IPv4 subnet list"
-  type        = list(string)
-  default     = []
-}
-
-variable "outpost_subnet_ipv6_prefixes" {
-  description = "Assigns IPv6 outpost subnet id based on the Amazon provided /56 prefix base 10 integer (0-256). Must be of equal length to the corresponding IPv4 subnet list"
-  type        = list(string)
-  default     = []
-}
-
-variable "database_subnet_ipv6_prefixes" {
-  description = "Assigns IPv6 database subnet id based on the Amazon provided /56 prefix base 10 integer (0-256). Must be of equal length to the corresponding IPv4 subnet list"
-  type        = list(string)
-  default     = []
-}
-
-variable "redshift_subnet_ipv6_prefixes" {
-  description = "Assigns IPv6 redshift subnet id based on the Amazon provided /56 prefix base 10 integer (0-256). Must be of equal length to the corresponding IPv4 subnet list"
-  type        = list(string)
-  default     = []
-}
-
-variable "elasticache_subnet_ipv6_prefixes" {
-  description = "Assigns IPv6 elasticache subnet id based on the Amazon provided /56 prefix base 10 integer (0-256). Must be of equal length to the corresponding IPv4 subnet list"
-  type        = list(string)
-  default     = []
-}
-
-variable "intra_subnet_ipv6_prefixes" {
-  description = "Assigns IPv6 intra subnet id based on the Amazon provided /56 prefix base 10 integer (0-256). Must be of equal length to the corresponding IPv4 subnet list"
-  type        = list(string)
-  default     = []
-}
-
-variable "assign_ipv6_address_on_creation" {
-  description = "Assign IPv6 address on subnet, must be disabled to change IPv6 CIDRs. This is the IPv6 equivalent of map_public_ip_on_launch"
-  type        = bool
-  default     = false
-}
-
-variable "private_subnet_assign_ipv6_address_on_creation" {
-  description = "Assign IPv6 address on private subnet, must be disabled to change IPv6 CIDRs. This is the IPv6 equivalent of map_public_ip_on_launch"
-  type        = bool
-  default     = null
-}
-
-variable "public_subnet_assign_ipv6_address_on_creation" {
-  description = "Assign IPv6 address on public subnet, must be disabled to change IPv6 CIDRs. This is the IPv6 equivalent of map_public_ip_on_launch"
-  type        = bool
-  default     = null
-}
-
-variable "outpost_subnet_assign_ipv6_address_on_creation" {
-  description = "Assign IPv6 address on outpost subnet, must be disabled to change IPv6 CIDRs. This is the IPv6 equivalent of map_public_ip_on_launch"
-  type        = bool
-  default     = null
-}
-
-variable "database_subnet_assign_ipv6_address_on_creation" {
-  description = "Assign IPv6 address on database subnet, must be disabled to change IPv6 CIDRs. This is the IPv6 equivalent of map_public_ip_on_launch"
-  type        = bool
-  default     = null
-}
-
-variable "redshift_subnet_assign_ipv6_address_on_creation" {
-  description = "Assign IPv6 address on redshift subnet, must be disabled to change IPv6 CIDRs. This is the IPv6 equivalent of map_public_ip_on_launch"
-  type        = bool
-  default     = null
-}
-
-variable "elasticache_subnet_assign_ipv6_address_on_creation" {
-  description = "Assign IPv6 address on elasticache subnet, must be disabled to change IPv6 CIDRs. This is the IPv6 equivalent of map_public_ip_on_launch"
-  type        = bool
-  default     = null
-}
-
-variable "intra_subnet_assign_ipv6_address_on_creation" {
-  description = "Assign IPv6 address on intra subnet, must be disabled to change IPv6 CIDRs. This is the IPv6 equivalent of map_public_ip_on_launch"
-  type        = bool
-  default     = null
 }
 
 variable "secondary_cidr_blocks" {
-  description = "List of secondary CIDR blocks to associate with the VPC to extend the IP Address pool"
+  description = "Lista de blocos CIDR secundários a serem associados à VPC para estender o pool de endereços IP"
   type        = list(string)
   default     = []
 }
 
 variable "instance_tenancy" {
-  description = "A tenancy option for instances launched into the VPC"
+  description = "Uma opção de locação para instâncias iniciadas no VPC"
   type        = string
   default     = "default"
 }
 
 variable "public_subnet_suffix" {
-  description = "Suffix to append to public subnets name"
+  description = "Sufixo para anexar ao nome de sub-redes públicas"
   type        = string
   default     = "public"
 }
 
 variable "private_subnet_suffix" {
-  description = "Suffix to append to private subnets name"
+  description = "Sufixo para anexar ao nome de sub-redes privadas"
   type        = string
   default     = "private"
 }
 
-variable "outpost_subnet_suffix" {
-  description = "Suffix to append to outpost subnets name"
-  type        = string
-  default     = "outpost"
-}
-
 variable "intra_subnet_suffix" {
-  description = "Suffix to append to intra subnets name"
+  description = "Sufixo para anexar ao nome das sub-redes"
   type        = string
   default     = "intra"
 }
 
 variable "database_subnet_suffix" {
-  description = "Suffix to append to database subnets name"
+  description = "Sufixo para anexar ao nome das sub-redes do banco de dados"
   type        = string
   default     = "db"
 }
 
 variable "redshift_subnet_suffix" {
-  description = "Suffix to append to redshift subnets name"
+  description = "Sufixo para anexar ao nome das sub-redes do Redshift"
   type        = string
   default     = "redshift"
 }
 
 variable "elasticache_subnet_suffix" {
-  description = "Suffix to append to elasticache subnets name"
+  description = "Sufixo para anexar ao nome das sub-redes do elasticache"
   type        = string
   default     = "elasticache"
 }
 
 variable "public_subnets" {
-  description = "A list of public subnets inside the VPC"
+  description = "Uma lista de sub-redes públicas dentro da VPC"
   type        = list(string)
   default     = []
 }
 
 variable "private_subnets" {
-  description = "A list of private subnets inside the VPC"
-  type        = list(string)
-  default     = []
-}
-
-variable "outpost_subnets" {
-  description = "A list of outpost subnets inside the VPC"
+  description = "Uma lista de sub-redes privadas dentro da VPC"
   type        = list(string)
   default     = []
 }
 
 variable "database_subnets" {
-  description = "A list of database subnets"
+  description = "Uma lista de sub-redes de banco de dados"
   type        = list(string)
   default     = []
 }
 
 variable "redshift_subnets" {
-  description = "A list of redshift subnets"
+  description = "Uma lista de sub-redes de redshift"
   type        = list(string)
   default     = []
 }
 
 variable "elasticache_subnets" {
-  description = "A list of elasticache subnets"
+  description = "Uma lista de sub-redes de elasticache"
   type        = list(string)
   default     = []
 }
 
 variable "intra_subnets" {
-  description = "A list of intra subnets"
+  description = "Uma lista de sub-redes de intra"
   type        = list(string)
   default     = []
 }
 
 variable "create_database_subnet_route_table" {
-  description = "Controls if separate route table for database should be created"
+  description = "Controla se a tabela de rota separada para o banco de dados deve ser criada"
   type        = bool
   default     = false
 }
 
 variable "create_redshift_subnet_route_table" {
-  description = "Controls if separate route table for redshift should be created"
+  description = "Controla se a tabela de rota separada para o Redshift deve ser criada"
   type        = bool
   default     = false
 }
 
 variable "enable_public_redshift" {
-  description = "Controls if redshift should have public routing table"
+  description = "Controla se o redshift deve ter uma tabela de roteamento pública"
   type        = bool
   default     = false
 }
 
 variable "create_elasticache_subnet_route_table" {
-  description = "Controls if separate route table for elasticache should be created"
+  description = "Controla se a tabela de rota separada para elasticache deve ser criada"
   type        = bool
   default     = false
 }
 
 variable "create_database_subnet_group" {
-  description = "Controls if database subnet group should be created (n.b. database_subnets must also be set)"
+  description = "Controla se a tabela de rota separada para elasticache deve ser criada"
   type        = bool
   default     = true
 }
 
 variable "create_elasticache_subnet_group" {
-  description = "Controls if elasticache subnet group should be created"
+  description = "Controla se o grupo de sub-redes elasticache deve ser criado"
   type        = bool
   default     = true
 }
 
 variable "create_redshift_subnet_group" {
-  description = "Controls if redshift subnet group should be created"
+  description = "Controla se o grupo de sub-redes redshift deve ser criado"
   type        = bool
   default     = true
 }
 
 variable "create_database_internet_gateway_route" {
-  description = "Controls if an internet gateway route for public database access should be created"
+  description = "Controla se o grupo de sub-redes redshift deve ser criado"
   type        = bool
   default     = false
 }
 
 variable "create_database_nat_gateway_route" {
-  description = "Controls if a nat gateway route should be created to give internet access to the database subnets"
+  description = "Os controles de uma rota de gateway nat devem ser criados para fornecer acesso à Internet às sub-redes do banco de dados"
   type        = bool
   default     = false
 }
 
 variable "azs" {
-  description = "A list of availability zones names or ids in the region"
+  description = "Uma lista de zonas de disponibilidade na região"
   type        = list(string)
   default     = []
 }
 
 variable "enable_dns_hostnames" {
-  description = "Should be true to enable DNS hostnames in the VPC"
+  description = "Deve ser verdadeiro para habilitar nomes de host DNS na VPC"
   type        = bool
   default     = false
 }
 
 variable "enable_dns_support" {
-  description = "Should be true to enable DNS support in the VPC"
+  description = "Deve ser verdadeiro para ativar o suporte ao DNS no VPC"
   type        = bool
   default     = true
 }
 
-variable "enable_classiclink" {
-  description = "Should be true to enable ClassicLink for the VPC. Only valid in regions and accounts that support EC2 Classic."
-  type        = bool
-  default     = null
-}
-
-variable "enable_classiclink_dns_support" {
-  description = "Should be true to enable ClassicLink DNS Support for the VPC. Only valid in regions and accounts that support EC2 Classic."
-  type        = bool
-  default     = null
-}
-
 variable "enable_nat_gateway" {
-  description = "Should be true if you want to provision NAT Gateways for each of your private networks"
+  description = "Deve ser verdadeiro se você deseja provisionar NAT Gateways para cada uma das suas redes privadas"
   type        = bool
   default     = false
 }
 
 variable "single_nat_gateway" {
-  description = "Should be true if you want to provision a single shared NAT Gateway across all of your private networks"
+  description = "Deve ser verdadeiro se você deseja provisionar um único NAT Gateways compartilhado em todas as suas redes privadas"
   type        = bool
   default     = false
 }
 
 variable "one_nat_gateway_per_az" {
-  description = "Should be true if you want only one NAT Gateway per availability zone. Requires `var.azs` to be set, and the number of `public_subnets` created to be greater than or equal to the number of availability zones specified in `var.azs`."
+  description = "Deve ser verdadeiro se você deseja apenas um Gateway NAT por zona de disponibilidade. Requer que `var.azs` seja definido, e o número de` public_subnets` criado seja maior ou igual ao número de zonas de disponibilidade especificadas em `var.azs`."
   type        = bool
   default     = false
 }
 
 variable "reuse_nat_ips" {
-  description = "Should be true if you don't want EIPs to be created for your NAT Gateways and will instead pass them in via the 'external_nat_ip_ids' variable"
+  description = "Deve ser verdadeiro se você não deseja que os EIPs sejam criados para seus NAT Gateways e os repassará por meio da variável 'nat_ip_ids' externa"
   type        = bool
   default     = false
 }
 
 variable "external_nat_ip_ids" {
-  description = "List of EIP IDs to be assigned to the NAT Gateways (used in combination with reuse_nat_ips)"
+  description = "Lista de IDs EIP a serem atribuídos aos NAT Gateways (usados em combinação com reuse_nat_ips)"
   type        = list(string)
   default     = []
 }
 
-variable "external_nat_ips" {
-  description = "List of EIPs to be used for `nat_public_ips` output (used in combination with reuse_nat_ips and external_nat_ip_ids)"
+variable "enable_dynamodb_endpoint" {
+  description = "Deve ser verdadeiro se você deseja provisionar um VPC Endpoint para o DynamoDB"
+  type        = bool
+  default     = false
+}
+
+variable "enable_s3_endpoint" {
+  description = "Deve ser verdadeiro se você deseja provisionar um VPC Endpoint para o S3"
+  type        = bool
+  default     = false
+}
+
+variable "enable_sqs_endpoint" {
+  description = "Deve ser verdadeiro se você deseja provisionar um VPC Endpoint para SQS"
+  default     = false
+}
+
+variable "sqs_endpoint_security_group_ids" {
+  description = "O ID de um ou mais grupos de segurança a serem associados à interface de rede para o Endpoint SQS"
+  default     = []
+}
+
+variable "sqs_endpoint_subnet_ids" {
+  description = "O ID de uma ou mais sub-redes nas quais criar uma interface de rede para o Endpoint SQS. Apenas uma única sub-rede em um AZ é suportada. Se omitido, sub-redes privadas serão usadas."
+  default     = []
+}
+
+variable "sqs_endpoint_private_dns_enabled" {
+  description = "Se deve ou não associar uma zona privada ao VPC Endpoint para SQS especificado"
+  default     = false
+}
+
+variable "enable_ssm_endpoint" {
+  description = "Deve ser verdadeiro se você deseja provisionar um VPC Endpoint para SSM"
+  type        = bool
+  default     = false
+}
+
+variable "ssm_endpoint_security_group_ids" {
+  description = "O ID de um ou mais grupos de segurança a serem associados à interface de rede para o VPC Endpoint SSM"
   type        = list(string)
   default     = []
+}
+
+variable "ssm_endpoint_subnet_ids" {
+  description = "O ID de uma ou mais sub-redes nas quais criar uma interface de rede para o VPC Endpoint SSM. Apenas uma única sub-rede em um AZ é suportada. Se omitido, sub-redes privadas serão usadas."
+  type        = list(string)
+  default     = []
+}
+
+variable "ssm_endpoint_private_dns_enabled" {
+  description = "Se deve ou não associar uma zona privada ao VPC Endpoint especificado para SSM"
+  type        = bool
+  default     = false
+}
+
+variable "enable_ssmmessages_endpoint" {
+  description = "Deve ser verdadeiro se você deseja provisionar um VPC Endpoint para SSMMESSAGES"
+  type        = bool
+  default     = false
+}
+
+variable "enable_apigw_endpoint" {
+  description = "Deve ser verdadeiro se você deseja provisionar um VPC Endpoint de Api Gateway"
+  type        = bool
+  default     = false
+}
+
+variable "apigw_endpoint_security_group_ids" {
+  description = "O ID de um ou mais grupos de segurança a serem associados à interface de rede para o VPC Endpoint da API Gateway"
+  type        = list(string)
+  default     = []
+}
+
+variable "apigw_endpoint_private_dns_enabled" {
+  description = "Se deve ou não associar uma zona privada ao VPC Endpoint especificado para API Gateway"
+  type        = bool
+  default     = false
+}
+
+variable "apigw_endpoint_subnet_ids" {
+  description = "O ID de uma ou mais sub-redes nas quais criar uma interface de rede para o VPC Endpoint da API Gateway. Apenas uma única sub-rede em um AZ é suportada. Se omitido, sub-redes privadas serão usadas."
+  type        = list(string)
+  default     = []
+}
+
+variable "ssmmessages_endpoint_security_group_ids" {
+  description = "O ID de um ou mais grupos de segurança a serem associados à interface de rede para o VPC Endpoint SSMMESSAGES"
+  type        = list(string)
+  default     = []
+}
+
+variable "ssmmessages_endpoint_subnet_ids" {
+  description = "O ID de uma ou mais sub-redes nas quais criar uma interface de rede para o VPC Endpoint SSMMESSAGES. Apenas uma única sub-rede em um AZ é suportada. Se omitido, sub-redes privadas serão usadas."
+  type        = list(string)
+  default     = []
+}
+
+variable "ssmmessages_endpoint_private_dns_enabled" {
+  description = "Se deve ou não associar uma zona privada ao VPC Endpoint especificado para SSMMESSAGES"
+  type        = bool
+  default     = false
+}
+
+variable "enable_ec2_endpoint" {
+  description = "Deve ser verdadeiro se você deseja provisionar um VPC Endpoint para EC2"
+  type        = bool
+  default     = false
+}
+
+variable "ec2_endpoint_security_group_ids" {
+  description = "O ID de um ou mais grupos de segurança a serem associados à interface de rede para o VPC Endpoint EC2"
+  type        = list(string)
+  default     = []
+}
+
+variable "ec2_endpoint_private_dns_enabled" {
+  description = "Se deve ou não associar uma zona privada ao VPC Endpoint especificado para EC2"
+  type        = bool
+  default     = false
+}
+
+variable "ec2_endpoint_subnet_ids" {
+  description = "O ID de uma ou mais sub-redes nas quais criar uma interface de rede para o VPC Endpoint do EC2. Apenas uma única sub-rede em um AZ é suportada. Se omitido, sub-redes privadas serão usadas."
+  type        = list(string)
+  default     = []
+}
+
+variable "enable_ec2messages_endpoint" {
+  description = "Deve ser verdadeiro se você deseja provisionar um VPC Endpoint para EC2MESSAGES"
+  type        = bool
+  default     = false
+}
+
+variable "ec2messages_endpoint_security_group_ids" {
+  description = "O ID de um ou mais grupos de segurança a serem associados à interface de rede para o VPC Endpoint EC2MESSAGES"
+  type        = list(string)
+  default     = []
+}
+
+variable "ec2messages_endpoint_private_dns_enabled" {
+  description = "Se deve ou não associar uma zona privada ao VPC Endpoint especificado da EC2MESSAGES"
+  type        = bool
+  default     = false
+}
+
+variable "ec2messages_endpoint_subnet_ids" {
+  description = "O ID de uma ou mais sub-redes nas quais criar uma interface de rede para o VPC Endpoint EC2MESSAGES. Apenas uma única sub-rede em um AZ é suportada. Se omitido, sub-redes privadas serão usadas."
+  type        = list(string)
+  default     = []
+}
+
+variable "enable_ecr_api_endpoint" {
+  description = "Deve ser verdadeiro se você deseja provisionar um VPC Endpoint para o ECR"
+  type        = bool
+  default     = false
+}
+
+variable "ecr_api_endpoint_subnet_ids" {
+  description = "O ID de uma ou mais sub-redes nas quais criar uma interface de rede para o VPC Endpoint da API ECR. Se omitido, sub-redes privadas serão usadas."
+  type        = list(string)
+  default     = []
+}
+
+variable "ecr_api_endpoint_private_dns_enabled" {
+  description = "Se deve ou não associar uma zona privada ao VPC Endpoint da API do EKS"
+  type        = bool
+  default     = false
+}
+
+variable "ecr_api_endpoint_security_group_ids" {
+  description = "O ID de um ou mais grupos de segurança a serem associados à interface de rede para o VPC Endpoint da API ECR"
+  type        = list(string)
+  default     = []
+}
+
+variable "enable_ecr_dkr_endpoint" {
+  description = "Deve ser verdadeiro se você deseja provisionar um VPC Endpoint ECR Dkr para o VPC"
+  type        = bool
+  default     = false
+}
+
+variable "ecr_dkr_endpoint_subnet_ids" {
+  description = "O ID de uma ou mais sub-redes nas quais criar uma interface de rede para VPC Endpoint ECR dkr. Se omitido, sub-redes privadas serão usadas."
+  type        = list(string)
+  default     = []
+}
+
+variable "ecr_dkr_endpoint_private_dns_enabled" {
+  description = "Se deve ou não associar uma zona privada ao VPC Endpoint especificado para ECR DKR"
+  type        = bool
+  default     = false
+}
+
+variable "ecr_dkr_endpoint_security_group_ids" {
+  description = "O ID de um ou mais grupos de segurança a serem associados à interface de rede para o VPC Endpoint ECR DKR"
+  type        = list(string)
+  default     = []
+}
+
+variable "enable_kms_endpoint" {
+  description = "Deve ser verdadeiro se você deseja provisionar um VPC Endpoint para KMS"
+  type        = bool
+  default     = false
+}
+
+variable "kms_endpoint_security_group_ids" {
+  description = "O ID de um ou mais grupos de segurança a serem associados à interface de rede para o VPC Endpoint KMS"
+  type        = list(string)
+  default     = []
+}
+
+variable "kms_endpoint_subnet_ids" {
+  description = "O ID de uma ou mais sub-redes nas quais criar uma interface de rede para o terminal KMS. Apenas uma única sub-rede em um AZ é suportada. Se omitido, sub-redes privadas serão usadas."
+  type        = list(string)
+  default     = []
+}
+
+variable "kms_endpoint_private_dns_enabled" {
+  description = "Se deve ou não associar uma zona privada ao VPC Endpoint especificado do KMS"
+  type        = bool
+  default     = false
+}
+
+variable "enable_ecs_endpoint" {
+  description = "Deve ser verdadeiro se você deseja provisionar um VPC Endpoint para ECS"
+  type        = bool
+  default     = false
+}
+
+variable "ecs_endpoint_security_group_ids" {
+  description = "O ID de um ou mais grupos de segurança a serem associados à interface de rede para o VPC Endpoint do ECS"
+  type        = list(string)
+  default     = []
+}
+
+variable "ecs_endpoint_subnet_ids" {
+  description = "O ID de uma ou mais sub-redes nas quais criar uma interface de rede para o VPC Endpoint do ECS. Apenas uma única sub-rede em um AZ é suportada. Se omitido, sub-redes privadas serão usadas."
+  type        = list(string)
+  default     = []
+}
+
+variable "ecs_endpoint_private_dns_enabled" {
+  description = "Se deve ou não associar uma zona privada ao VPC Endpoint especificado do ECS"
+  type        = bool
+  default     = false
+}
+
+variable "enable_ecs_agent_endpoint" {
+  description = "Deve ser verdadeiro se você deseja provisionar um VPC Endpoint do ECS Agent"
+  type        = bool
+  default     = false
+}
+
+variable "ecs_agent_endpoint_security_group_ids" {
+  description = "O ID de um ou mais grupos de segurança a serem associados à interface de rede para o VPC Endpoint do ECS Agent"
+  type        = list(string)
+  default     = []
+}
+
+variable "ecs_agent_endpoint_subnet_ids" {
+  description = "O ID de uma ou mais sub-redes nas quais criar uma interface de rede para o VPC Endpoint do ECS Agent. Apenas uma única sub-rede em um AZ é suportada. Se omitido, sub-redes privadas serão usadas."
+  type        = list(string)
+  default     = []
+}
+
+variable "ecs_agent_endpoint_private_dns_enabled" {
+  description = "Se deve ou não associar uma zona privada ao VPC Endpoint especificado do ECS Agent"
+  type        = bool
+  default     = false
+}
+
+variable "enable_ecs_telemetry_endpoint" {
+  description = "Deve ser verdadeiro se você deseja provisionar um VPC Endpoint de Telemetria ECS"
+  type        = bool
+  default     = false
+}
+
+variable "ecs_telemetry_endpoint_security_group_ids" {
+  description = "O ID de um ou mais grupos de segurança a serem associados à interface de rede para o VPC Endpoint do ECS Telemetry"
+  type        = list(string)
+  default     = []
+}
+
+variable "ecs_telemetry_endpoint_subnet_ids" {
+  description = "O ID de uma ou mais sub-redes nas quais criar uma interface de rede para o VPC Endpoint de Telemetria do ECS. Apenas uma única sub-rede em um AZ é suportada. Se omitido, sub-redes privadas serão usadas."
+  type        = list(string)
+  default     = []
+}
+
+variable "ecs_telemetry_endpoint_private_dns_enabled" {
+  description = "Se deve ou não associar uma zona privada ao VPC Endpoint do ECS especificado"
+  type        = bool
+  default     = false
+}
+
+variable "enable_sns_endpoint" {
+  description = "Deve ser verdadeiro se você deseja provisionar um ponto VPC Endpoint o SNS"
+  type        = bool
+  default     = false
+}
+
+variable "sns_endpoint_security_group_ids" {
+  description = "O ID de um ou mais grupos de segurança a serem associados à interface de rede para o VPC Endpoint SNS"
+  type        = list(string)
+  default     = []
+}
+
+variable "sns_endpoint_subnet_ids" {
+  description = "O ID de uma ou mais sub-redes nas quais criar uma interface de rede para o VPC Endpoint do SNS. Apenas uma única sub-rede em um AZ é suportada. Se omitido, sub-redes privadas serão usadas."
+  type        = list(string)
+  default     = []
+}
+
+variable "sns_endpoint_private_dns_enabled" {
+  description = "Se deve ou não associar uma zona privada ao VPC Endpoint para o SNS especificado"
+  type        = bool
+  default     = false
+}
+
+variable "enable_monitoring_endpoint" {
+  description = "Deve ser verdadeiro se você deseja provisionar um VPC Endpoint do CloudWatch Monitoring"
+  type        = bool
+  default     = false
+}
+
+variable "monitoring_endpoint_security_group_ids" {
+  description = "O ID de um ou mais grupos de segurança a serem associados à interface de rede para o VPC Endpoint do CloudWatch Monitoring"
+  type        = list(string)
+  default     = []
+}
+
+variable "monitoring_endpoint_subnet_ids" {
+  description = "O ID de uma ou mais sub-redes nas quais criar uma interface de rede para o VPC Endpoint do CloudWatch Monitoring. Apenas uma única sub-rede em um AZ é suportada. Se omitido, sub-redes privadas serão usadas."
+  type        = list(string)
+  default     = []
+}
+
+variable "monitoring_endpoint_private_dns_enabled" {
+  description = "Se deve ou não associar uma zona privada ao VPC Endpoint especificado para Monitoramento do CloudWatch"
+  type        = bool
+  default     = false
+}
+
+variable "enable_elasticloadbalancing_endpoint" {
+  description = "Deve ser verdadeiro se você deseja provisionar um ponto de extremidade do Elastic Load Balancing para a VPC"
+  type        = bool
+  default     = false
+}
+
+variable "elasticloadbalancing_endpoint_security_group_ids" {
+  description = "O ID de um ou mais grupos de segurança a serem associados à interface de rede para o VPC Endpoint do Elastic Load Balancing"
+  type        = list(string)
+  default     = []
+}
+
+variable "elasticloadbalancing_endpoint_subnet_ids" {
+  description = "O ID de uma ou mais sub-redes nas quais criar uma interface de rede para o VPC Endpoint do Elastic Load Balancing. Apenas uma única sub-rede com em um AZ é suportada. Se omitido, sub-redes privadas serão usadas."
+  type        = list(string)
+  default     = []
+}
+
+variable "elasticloadbalancing_endpoint_private_dns_enabled" {
+  description = "Se deve ou não associar uma zona privada ao VPC Endpoint especificado para Elastic Load Balancing"
+  type        = bool
+  default     = false
+}
+
+variable "enable_events_endpoint" {
+  description = "Deve ser verdadeiro se você deseja provisionar um VPC Endpoint de Eventos do CloudWatch para o VPC"
+  type        = bool
+  default     = false
+}
+
+variable "events_endpoint_security_group_ids" {
+  description = "O ID de um ou mais grupos de segurança a serem associados à interface de rede para o VPC Endpoint do CloudWatch Events"
+  type        = list(string)
+  default     = []
+}
+
+variable "events_endpoint_subnet_ids" {
+  description = "O ID de uma ou mais sub-redes nas quais criar uma interface de rede para o VPC Endpoint do CloudWatch Events. Apenas uma única sub-rede em um AZ é suportada. Se omitido, sub-redes privadas serão usadas."
+  type        = list(string)
+  default     = []
+}
+
+variable "events_endpoint_private_dns_enabled" {
+  description = "Se deve ou não associar uma zona privada ao VPC Endpoint especificado do CloudWatch Events"
+  type        = bool
+  default     = false
+}
+
+variable "enable_logs_endpoint" {
+  description = "Deve ser verdadeiro se você deseja provisionar um VPC Endpoint do CloudWatch Logs para a VPC"
+  type        = bool
+  default     = false
+}
+
+variable "logs_endpoint_security_group_ids" {
+  description = "O ID de um ou mais grupos de segurança a serem associados à interface de rede para o VPC Endpoint do CloudWatch Logs"
+  type        = list(string)
+  default     = []
+}
+
+variable "logs_endpoint_subnet_ids" {
+  description = "O ID de uma ou mais sub-redes nas quais criar uma interface de rede para o VPC Endpoint CloudWatch Logs. Apenas uma única sub-rede dentro de um Z é suportada. Se omitido, sub-redes privadas serão usadas."
+  type        = list(string)
+  default     = []
+}
+
+variable "logs_endpoint_private_dns_enabled" {
+  description = "Se deve ou não associar uma zona privada ao VPC Endpoint especificado para CloudWatch Logs"
+  type        = bool
+  default     = false
+}
+
+variable "enable_cloudtrail_endpoint" {
+  description = "Deve ser verdadeiro se você deseja provisionar um VPC Endpoint para CloudTrail"
+  type        = bool
+  default     = false
+}
+
+variable "cloudtrail_endpoint_security_group_ids" {
+  description = "O ID de um ou mais grupos de segurança a serem associados à interface de rede para o VPC Endpoint do CloudTrail"
+  type        = list(string)
+  default     = []
+}
+
+variable "cloudtrail_endpoint_subnet_ids" {
+  description = "O ID de uma ou mais sub-redes nas quais criar uma interface de rede para VPC Endpoint do CloudTrail. Apenas uma única sub-rede em um AZ é suportada. Se omitido, sub-redes privadas serão usadas."
+  type        = list(string)
+  default     = []
+}
+
+variable "cloudtrail_endpoint_private_dns_enabled" {
+  description = "Se deve ou não associar uma zona privada ao VPC Endpoint especificado para CloudTrail"
+  type        = bool
+  default     = false
 }
 
 variable "map_public_ip_on_launch" {
-  description = "Should be false if you do not want to auto-assign public IP on launch"
+  description = "Deve ser falso se você não deseja atribuir automaticamente IP público ao iniciar"
   type        = bool
   default     = true
 }
 
-variable "customer_gateways" {
-  description = "Maps of Customer Gateway's attributes (BGP ASN and Gateway's Internet-routable external IP address)"
-  type        = map(map(any))
-  default     = {}
-}
-
 variable "enable_vpn_gateway" {
-  description = "Should be true if you want to create a new VPN Gateway resource and attach it to the VPC"
+  description = "Deve ser verdadeiro se você deseja criar um novo recurso de VPN Gateway e anexá-lo à VPC"
   type        = bool
   default     = false
 }
 
 variable "vpn_gateway_id" {
-  description = "ID of VPN Gateway to attach to the VPC"
-  type        = string
+  description = "ID do VPN Gateway a ser anexado à VPC"
   default     = ""
 }
 
 variable "amazon_side_asn" {
-  description = "The Autonomous System Number (ASN) for the Amazon side of the gateway. By default the virtual private gateway is created with the current default Amazon ASN."
-  type        = string
+  description = "O número do sistema autônomo (ASN) do lado do gateway da amazon. Por padrão, o gateway privado virtual é criado com o Amazon ASN padrão atual"
   default     = "64512"
 }
 
-variable "vpn_gateway_az" {
-  description = "The Availability Zone for the VPN Gateway"
-  type        = string
-  default     = null
-}
-
-variable "propagate_intra_route_tables_vgw" {
-  description = "Should be true if you want route table propagation"
-  type        = bool
-  default     = false
-}
-
 variable "propagate_private_route_tables_vgw" {
-  description = "Should be true if you want route table propagation"
+  description = "Deve ser verdadeiro se você desejar a propagação da tabela de rotas"
   type        = bool
   default     = false
 }
 
 variable "propagate_public_route_tables_vgw" {
-  description = "Should be true if you want route table propagation"
+  description = "Deve ser verdadeiro se você desejar a propagação da tabela de rotas"
   type        = bool
   default     = false
-}
-
-variable "manage_default_route_table" {
-  description = "Should be true to manage default route table"
-  type        = bool
-  default     = false
-}
-
-variable "default_route_table_propagating_vgws" {
-  description = "List of virtual gateways for propagation"
-  type        = list(string)
-  default     = []
-}
-
-variable "default_route_table_routes" {
-  description = "Configuration block of routes. See https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/default_route_table#route"
-  type        = list(map(string))
-  default     = []
-}
-
-variable "default_route_table_tags" {
-  description = "Additional tags for the default route table"
-  type        = map(string)
-  default     = {}
 }
 
 variable "tags" {
-  description = "A map of tags to add to all resources"
+  description = "Um mapa de tags para adicionar a todos os recursos"
   type        = map(string)
   default     = {}
 }
 
 variable "vpc_tags" {
-  description = "Additional tags for the VPC"
+  description = "Tags adicionais para a VPC"
   type        = map(string)
   default     = {}
 }
 
 variable "igw_tags" {
-  description = "Additional tags for the internet gateway"
+  description = "Tags adicionais para o gateway da Internet"
   type        = map(string)
   default     = {}
 }
 
 variable "public_subnet_tags" {
-  description = "Additional tags for the public subnets"
+  description = "Tags adicionais para as sub-redes públicas"
   type        = map(string)
   default     = {}
 }
 
 variable "private_subnet_tags" {
-  description = "Additional tags for the private subnets"
-  type        = map(string)
-  default     = {}
-}
-
-variable "outpost_subnet_tags" {
-  description = "Additional tags for the outpost subnets"
+  description = "Tags adicionais para as sub-redes privadas"
   type        = map(string)
   default     = {}
 }
 
 variable "public_route_table_tags" {
-  description = "Additional tags for the public route tables"
+  description = "Tags adicionais para as tabelas de rotas públicas"
   type        = map(string)
   default     = {}
 }
 
 variable "private_route_table_tags" {
-  description = "Additional tags for the private route tables"
+  description = "Tags adicionais para as tabelas de rotas particulares"
   type        = map(string)
   default     = {}
 }
 
 variable "database_route_table_tags" {
-  description = "Additional tags for the database route tables"
+  description = "Tags adicionais para as tabelas de rotas do banco de dados"
   type        = map(string)
   default     = {}
 }
 
 variable "redshift_route_table_tags" {
-  description = "Additional tags for the redshift route tables"
+  description = "Tags adicionais para as tabelas de rotas de desvio para o Redshift"
   type        = map(string)
   default     = {}
 }
 
 variable "elasticache_route_table_tags" {
-  description = "Additional tags for the elasticache route tables"
+  description = "Tags adicionais para as tabelas de rotas elasticache"
   type        = map(string)
   default     = {}
 }
 
 variable "intra_route_table_tags" {
-  description = "Additional tags for the intra route tables"
+  description = "Tags adicionais para as tabelas de rotas internas"
   type        = map(string)
   default     = {}
 }
 
-variable "database_subnet_group_name" {
-  description = "Name of database subnet group"
-  type        = string
-  default     = null
-}
-
 variable "database_subnet_tags" {
-  description = "Additional tags for the database subnets"
+  description = "Tags adicionais para as sub-redes do banco de dados"
   type        = map(string)
   default     = {}
 }
 
 variable "database_subnet_group_tags" {
-  description = "Additional tags for the database subnet group"
+  description = "Tags adicionais para o grupo de sub-rede do banco de dados"
   type        = map(string)
   default     = {}
 }
 
 variable "redshift_subnet_tags" {
-  description = "Additional tags for the redshift subnets"
+  description = "Tags adicionais para as sub-redes de desvio para o Redshift"
   type        = map(string)
   default     = {}
-}
-
-variable "redshift_subnet_group_name" {
-  description = "Name of redshift subnet group"
-  type        = string
-  default     = null
 }
 
 variable "redshift_subnet_group_tags" {
-  description = "Additional tags for the redshift subnet group"
-  type        = map(string)
-  default     = {}
-}
-
-variable "elasticache_subnet_group_name" {
-  description = "Name of elasticache subnet group"
-  type        = string
-  default     = null
-}
-
-variable "elasticache_subnet_group_tags" {
-  description = "Additional tags for the elasticache subnet group"
+  description = "Tags adicionais para o grupo de sub-rede redshift"
   type        = map(string)
   default     = {}
 }
 
 variable "elasticache_subnet_tags" {
-  description = "Additional tags for the elasticache subnets"
+  description = "Tags adicionais para as sub-redes elasticache"
   type        = map(string)
   default     = {}
 }
 
 variable "intra_subnet_tags" {
-  description = "Additional tags for the intra subnets"
+  description = "Tags adicionais para as sub-redes intra"
   type        = map(string)
   default     = {}
 }
 
 variable "public_acl_tags" {
-  description = "Additional tags for the public subnets network ACL"
+  description = "Tags adicionais para a rede publica de sub-redes ACL"
   type        = map(string)
   default     = {}
 }
 
 variable "private_acl_tags" {
-  description = "Additional tags for the private subnets network ACL"
-  type        = map(string)
-  default     = {}
-}
-
-variable "outpost_acl_tags" {
-  description = "Additional tags for the outpost subnets network ACL"
+  description = "Tags adicionais para a rede privada de sub-redes ACL"
   type        = map(string)
   default     = {}
 }
 
 variable "intra_acl_tags" {
-  description = "Additional tags for the intra subnets network ACL"
+  description = "Tags adicionais para a rede ACL de sub-redes do intra"
   type        = map(string)
   default     = {}
 }
 
 variable "database_acl_tags" {
-  description = "Additional tags for the database subnets network ACL"
+  description = "Tags adicionais para a rede ACL de sub-redes do banco de dados"
   type        = map(string)
   default     = {}
 }
 
 variable "redshift_acl_tags" {
-  description = "Additional tags for the redshift subnets network ACL"
+  description = "Tags adicionais para a rede ACL da rede de sub-redes redshift"
   type        = map(string)
   default     = {}
 }
 
 variable "elasticache_acl_tags" {
-  description = "Additional tags for the elasticache subnets network ACL"
+  description = "Tags adicionais para a rede ACL de sub-redes elasticache"
   type        = map(string)
   default     = {}
 }
 
 variable "dhcp_options_tags" {
-  description = "Additional tags for the DHCP option set (requires enable_dhcp_options set to true)"
+  description = "Tags adicionais para o conjunto de opções DHCP (requer ativar as opções dhcp definidas como true)"
   type        = map(string)
   default     = {}
 }
 
 variable "nat_gateway_tags" {
-  description = "Additional tags for the NAT gateways"
+  description = "Tags adicionais para o NAT gateways"
   type        = map(string)
   default     = {}
 }
 
 variable "nat_eip_tags" {
-  description = "Additional tags for the NAT EIP"
-  type        = map(string)
-  default     = {}
-}
-
-variable "customer_gateway_tags" {
-  description = "Additional tags for the Customer Gateway"
+  description = "Tags adicionais para o NAT EIP"
   type        = map(string)
   default     = {}
 }
 
 variable "vpn_gateway_tags" {
-  description = "Additional tags for the VPN gateway"
+  description = "Tags adicionais para o VPN Gateway"
   type        = map(string)
   default     = {}
-}
-
-variable "vpc_flow_log_tags" {
-  description = "Additional tags for the VPC Flow Logs"
-  type        = map(string)
-  default     = {}
-}
-
-variable "vpc_flow_log_permissions_boundary" {
-  description = "The ARN of the Permissions Boundary for the VPC Flow Log IAM Role"
-  type        = string
-  default     = null
 }
 
 variable "enable_dhcp_options" {
-  description = "Should be true if you want to specify a DHCP options set with a custom domain name, DNS servers, NTP servers, netbios servers, and/or netbios server type"
+  description = "Deve ser verdadeiro se você desejar especificar opções de DHCP definidas com um nome de domínio personalizado, servidores DNS, servidores NTP, servidores netbios e/ou tipo de servidor netbios"
   type        = bool
   default     = false
 }
 
 variable "dhcp_options_domain_name" {
-  description = "Specifies DNS name for DHCP options set (requires enable_dhcp_options set to true)"
+  description = "Especifica o nome DNS para o conjunto de opções DHCP (requer enable_dhcp_options definido como true)"
   type        = string
   default     = ""
 }
 
 variable "dhcp_options_domain_name_servers" {
-  description = "Specify a list of DNS server addresses for DHCP options set, default to AWS provided (requires enable_dhcp_options set to true)"
+  description = "Especifique uma lista de endereços de servidor DNS para o conjunto de opções DHCP, padrão para a AWS fornecida (requer ativar opções dhcp definidas como true)"
   type        = list(string)
   default     = ["AmazonProvidedDNS"]
 }
 
 variable "dhcp_options_ntp_servers" {
-  description = "Specify a list of NTP servers for DHCP options set (requires enable_dhcp_options set to true)"
+  description = "Especifique uma lista de servidores NTP para o conjunto de opções DHCP (requer enable_dhcp_options configurado como true)"
   type        = list(string)
   default     = []
 }
 
 variable "dhcp_options_netbios_name_servers" {
-  description = "Specify a list of netbios servers for DHCP options set (requires enable_dhcp_options set to true)"
+  description = "Especifique uma lista de servidores netbios para o conjunto de opções DHCP (requer enable_dhcp_options configurado como true)"
   type        = list(string)
   default     = []
 }
 
 variable "dhcp_options_netbios_node_type" {
-  description = "Specify netbios node_type for DHCP options set (requires enable_dhcp_options set to true)"
+  description = "Especifique netbios node_type para o conjunto de opções DHCP (requer enable_dhcp_options configurado como true)"
   type        = string
   default     = ""
 }
 
 variable "manage_default_vpc" {
-  description = "Should be true to adopt and manage Default VPC"
+  description = "Deve ser verdadeiro adotar e gerenciar a VPC padrão"
   type        = bool
   default     = false
 }
 
 variable "default_vpc_name" {
-  description = "Name to be used on the Default VPC"
+  description = "Nome a ser usado na VPC Padrão"
   type        = string
   default     = ""
 }
 
 variable "default_vpc_enable_dns_support" {
-  description = "Should be true to enable DNS support in the Default VPC"
+  description = "Deve ser verdadeiro para ativar o suporte ao DNS na VPC padrão"
   type        = bool
   default     = true
 }
 
 variable "default_vpc_enable_dns_hostnames" {
-  description = "Should be true to enable DNS hostnames in the Default VPC"
+  description = "Deve ser verdadeiro para habilitar nomes de host DNS na VPC padrão"
   type        = bool
   default     = false
 }
 
 variable "default_vpc_enable_classiclink" {
-  description = "Should be true to enable ClassicLink in the Default VPC"
+  description = "Deve ser verdadeiro ativar o ClassicLink na VPC padrão"
   type        = bool
   default     = false
 }
 
 variable "default_vpc_tags" {
-  description = "Additional tags for the Default VPC"
+  description = "Tags adicionais para a VPC padrão"
   type        = map(string)
   default     = {}
 }
 
 variable "manage_default_network_acl" {
-  description = "Should be true to adopt and manage Default Network ACL"
+  description = "Deve ser verdadeiro adotar e gerenciar a ACL de rede padrão"
   type        = bool
   default     = false
 }
 
 variable "default_network_acl_name" {
-  description = "Name to be used on the Default Network ACL"
+  description = "Nome a ser usado na ACL de rede padrão"
   type        = string
   default     = ""
 }
 
 variable "default_network_acl_tags" {
-  description = "Additional tags for the Default Network ACL"
+  description = "Tags adicionais para a ACL de rede padrão"
   type        = map(string)
   default     = {}
 }
 
 variable "public_dedicated_network_acl" {
-  description = "Whether to use dedicated network ACL (not default) and custom rules for public subnets"
+  description = "Se deve usar ACL de rede dedicada (não padrão) e regras personalizadas para sub-redes públicas"
   type        = bool
   default     = false
 }
 
 variable "private_dedicated_network_acl" {
-  description = "Whether to use dedicated network ACL (not default) and custom rules for private subnets"
-  type        = bool
-  default     = false
-}
-
-variable "outpost_dedicated_network_acl" {
-  description = "Whether to use dedicated network ACL (not default) and custom rules for outpost subnets"
+  description = "Se deve usar ACL de rede dedicada (não padrão) e regras personalizadas para sub-redes privadas"
   type        = bool
   default     = false
 }
 
 variable "intra_dedicated_network_acl" {
-  description = "Whether to use dedicated network ACL (not default) and custom rules for intra subnets"
+  description = "Se deve usar ACL de rede dedicada (não padrão) e regras personalizadas para sub-redes"
   type        = bool
   default     = false
 }
 
 variable "database_dedicated_network_acl" {
-  description = "Whether to use dedicated network ACL (not default) and custom rules for database subnets"
+  description = "Se deve usar ACL de rede dedicada (não padrão) e regras personalizadas para sub-redes de banco de dados"
   type        = bool
   default     = false
 }
 
 variable "redshift_dedicated_network_acl" {
-  description = "Whether to use dedicated network ACL (not default) and custom rules for redshift subnets"
+  description = "Se deve usar ACL de rede dedicada (não padrão) e regras personalizadas para sub-redes redshift"
   type        = bool
   default     = false
 }
 
 variable "elasticache_dedicated_network_acl" {
-  description = "Whether to use dedicated network ACL (not default) and custom rules for elasticache subnets"
+  description = "Se deve usar ACL de rede dedicada (não padrão) e regras personalizadas para sub-redes elasticache"
   type        = bool
   default     = false
 }
 
 variable "default_network_acl_ingress" {
-  description = "List of maps of ingress rules to set on the Default Network ACL"
+  description = "Lista de mapas de regras de entrada a serem definidas na ACL da Rede Padrão"
   type        = list(map(string))
 
   default = [
@@ -779,7 +993,7 @@ variable "default_network_acl_ingress" {
 }
 
 variable "default_network_acl_egress" {
-  description = "List of maps of egress rules to set on the Default Network ACL"
+  description = "Lista de mapas de regras de saída a serem definidas na ACL da Rede Padrão"
   type        = list(map(string))
 
   default = [
@@ -803,7 +1017,7 @@ variable "default_network_acl_egress" {
 }
 
 variable "public_inbound_acl_rules" {
-  description = "Public subnets inbound network ACLs"
+  description = "ACLs de rede de entrada de sub-redes publicas"
   type        = list(map(string))
 
   default = [
@@ -819,7 +1033,7 @@ variable "public_inbound_acl_rules" {
 }
 
 variable "public_outbound_acl_rules" {
-  description = "Public subnets outbound network ACLs"
+  description = "ACLs de rede de saída de sub-redes publicas"
   type        = list(map(string))
 
   default = [
@@ -835,7 +1049,7 @@ variable "public_outbound_acl_rules" {
 }
 
 variable "private_inbound_acl_rules" {
-  description = "Private subnets inbound network ACLs"
+  description = "ACLs de rede de entrada de sub-redes internas"
   type        = list(map(string))
 
   default = [
@@ -851,39 +1065,7 @@ variable "private_inbound_acl_rules" {
 }
 
 variable "private_outbound_acl_rules" {
-  description = "Private subnets outbound network ACLs"
-  type        = list(map(string))
-
-  default = [
-    {
-      rule_number = 100
-      rule_action = "allow"
-      from_port   = 0
-      to_port     = 0
-      protocol    = "-1"
-      cidr_block  = "0.0.0.0/0"
-    },
-  ]
-}
-
-variable "outpost_inbound_acl_rules" {
-  description = "Outpost subnets inbound network ACLs"
-  type        = list(map(string))
-
-  default = [
-    {
-      rule_number = 100
-      rule_action = "allow"
-      from_port   = 0
-      to_port     = 0
-      protocol    = "-1"
-      cidr_block  = "0.0.0.0/0"
-    },
-  ]
-}
-
-variable "outpost_outbound_acl_rules" {
-  description = "Outpost subnets outbound network ACLs"
+  description = "ACLs de rede de saída de sub-redes internas"
   type        = list(map(string))
 
   default = [
@@ -899,7 +1081,7 @@ variable "outpost_outbound_acl_rules" {
 }
 
 variable "intra_inbound_acl_rules" {
-  description = "Intra subnets inbound network ACLs"
+  description = "ACLs de rede de entrada de sub-redes internas"
   type        = list(map(string))
 
   default = [
@@ -915,7 +1097,7 @@ variable "intra_inbound_acl_rules" {
 }
 
 variable "intra_outbound_acl_rules" {
-  description = "Intra subnets outbound network ACLs"
+  description = "ACLs de rede de saída de sub-redes internas"
   type        = list(map(string))
 
   default = [
@@ -931,7 +1113,7 @@ variable "intra_outbound_acl_rules" {
 }
 
 variable "database_inbound_acl_rules" {
-  description = "Database subnets inbound network ACL rules"
+  description = "Database - regras de ACL da rede de entrada de sub-redes"
   type        = list(map(string))
 
   default = [
@@ -947,7 +1129,7 @@ variable "database_inbound_acl_rules" {
 }
 
 variable "database_outbound_acl_rules" {
-  description = "Database subnets outbound network ACL rules"
+  description = "Database - Regras de ACL da rede de saída de sub-redes"
   type        = list(map(string))
 
   default = [
@@ -963,7 +1145,7 @@ variable "database_outbound_acl_rules" {
 }
 
 variable "redshift_inbound_acl_rules" {
-  description = "Redshift subnets inbound network ACL rules"
+  description = "Redshift - regras de ACL da rede de entrada de sub-redes"
   type        = list(map(string))
 
   default = [
@@ -979,7 +1161,7 @@ variable "redshift_inbound_acl_rules" {
 }
 
 variable "redshift_outbound_acl_rules" {
-  description = "Redshift subnets outbound network ACL rules"
+  description = "Redshift - Regras de ACL da rede de saída de sub-redes"
   type        = list(map(string))
 
   default = [
@@ -995,7 +1177,7 @@ variable "redshift_outbound_acl_rules" {
 }
 
 variable "elasticache_inbound_acl_rules" {
-  description = "Elasticache subnets inbound network ACL rules"
+  description = "Elasticache - regras de ACL da rede de entrada de sub-redes"
   type        = list(map(string))
 
   default = [
@@ -1011,7 +1193,7 @@ variable "elasticache_inbound_acl_rules" {
 }
 
 variable "elasticache_outbound_acl_rules" {
-  description = "Elasticache subnets outbound network ACL rules"
+  description = "Elasticache - Regras de ACL da rede de saída de sub-redes"
   type        = list(map(string))
 
   default = [
@@ -1026,128 +1208,7 @@ variable "elasticache_outbound_acl_rules" {
   ]
 }
 
-variable "manage_default_security_group" {
-  description = "Should be true to adopt and manage default security group"
-  type        = bool
-  default     = false
-}
-
-variable "default_security_group_name" {
-  description = "Name to be used on the default security group"
-  type        = string
-  default     = "default"
-}
-
-variable "default_security_group_ingress" {
-  description = "List of maps of ingress rules to set on the default security group"
-  type        = list(map(string))
-  default     = null
-}
-
-variable "enable_flow_log" {
-  description = "Whether or not to enable VPC Flow Logs"
-  type        = bool
-  default     = false
-}
-
-variable "default_security_group_egress" {
-  description = "List of maps of egress rules to set on the default security group"
-  type        = list(map(string))
-  default     = null
-}
-
-variable "default_security_group_tags" {
-  description = "Additional tags for the default security group"
-  type        = map(string)
-  default     = {}
-}
-
-variable "create_flow_log_cloudwatch_log_group" {
-  description = "Whether to create CloudWatch log group for VPC Flow Logs"
-  type        = bool
-  default     = false
-}
-
-variable "create_flow_log_cloudwatch_iam_role" {
-  description = "Whether to create IAM role for VPC Flow Logs"
-  type        = bool
-  default     = false
-}
-
-variable "flow_log_traffic_type" {
-  description = "The type of traffic to capture. Valid values: ACCEPT, REJECT, ALL."
-  type        = string
-  default     = "ALL"
-}
-
-variable "flow_log_destination_type" {
-  description = "Type of flow log destination. Can be s3 or cloud-watch-logs."
-  type        = string
-  default     = "cloud-watch-logs"
-}
-
-variable "flow_log_log_format" {
-  description = "The fields to include in the flow log record, in the order in which they should appear."
-  type        = string
-  default     = null
-}
-
-variable "flow_log_destination_arn" {
-  description = "The ARN of the CloudWatch log group or S3 bucket where VPC Flow Logs will be pushed. If this ARN is a S3 bucket the appropriate permissions need to be set on that bucket's policy. When create_flow_log_cloudwatch_log_group is set to false this argument must be provided."
-  type        = string
-  default     = ""
-}
-
-variable "flow_log_cloudwatch_iam_role_arn" {
-  description = "The ARN for the IAM role that's used to post flow logs to a CloudWatch Logs log group. When flow_log_destination_arn is set to ARN of Cloudwatch Logs, this argument needs to be provided."
-  type        = string
-  default     = ""
-}
-
-variable "flow_log_cloudwatch_log_group_name_prefix" {
-  description = "Specifies the name prefix of CloudWatch Log Group for VPC flow logs."
-  type        = string
-  default     = "/aws/vpc-flow-log/"
-}
-
-variable "flow_log_cloudwatch_log_group_retention_in_days" {
-  description = "Specifies the number of days you want to retain log events in the specified log group for VPC flow logs."
-  type        = number
-  default     = null
-}
-
-variable "flow_log_cloudwatch_log_group_kms_key_id" {
-  description = "The ARN of the KMS Key to use when encrypting log data for VPC flow logs."
-  type        = string
-  default     = null
-}
-
-variable "flow_log_max_aggregation_interval" {
-  description = "The maximum interval of time during which a flow of packets is captured and aggregated into a flow log record. Valid Values: `60` seconds or `600` seconds."
-  type        = number
-  default     = 600
-}
-
-variable "create_igw" {
-  description = "Controls if an Internet Gateway is created for public subnets and the related routes that connect them."
-  type        = bool
-  default     = true
-}
-
-variable "create_egress_only_igw" {
-  description = "Controls if an Egress Only Internet Gateway is created and its related routes."
-  type        = bool
-  default     = true
-}
-
-variable "outpost_arn" {
-  description = "ARN of Outpost you want to create a subnet in."
-  type        = string
-  default     = null
-}
-
-variable "outpost_az" {
-  description = "AZ where Outpost is anchored."
-  type        = string
-  default     = null
+variable "DEFAULT_TAGS" {
+  type    = map
+  default = {}
 }
